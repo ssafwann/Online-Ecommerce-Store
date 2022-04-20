@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>E-commerce shop</title>
+
+    <script>
+        $(document).ready(function () {
+            $("#btn_submit").click(function () {
+
+                var obj = {
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                }
+
+                $.ajax({
+                    url: '/user/login',
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    statusCode: {
+                        404: function () {
+                            //do somethign with error 404
+                            $("#div_result")
+                                .html(`<div class="alert alert-danger" role="alert"> <strong>Wrong Username and Password<strong></div>`);
+                        },
+                        500: function () {
+                            alert('Error: 500: Server error occurred.');
+                        },
+                        200: function () {
+                            window.location.replace("http://localhost:8000");
+                        }
+                    },
+                });
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <section>
+        <div class="signin">
+            <a href="/">
+                <h1>E-commerce Store</h1>
+            </a>
+            <div id="div_result"></div>
+
+            <div class="signin__container">
+                <h2>Sign in</h2>
+
+                <form>
+                    <label for="email">E-mail</label>
+                    <input id="email" type="email" placeholder="Enter your email" required />
+                    <label for="password">Password</label>
+                    <input id="password" type="password" placeholder="Enter your password" minLength="6" required />
+
+                    <button type="button" id="btn_submit" class="signin__loginButton">
+                        SIGN IN
+                    </button>
+                </form>
+
+                <p class="signin__info">
+                    By signing-in you agree to the E-COMMERCE STORE Conditions of Use & Sale. Please see our
+                    Privacy
+                    Notice, our Cookies Notice and our Interest-Based Ads Notice.
+                </p>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

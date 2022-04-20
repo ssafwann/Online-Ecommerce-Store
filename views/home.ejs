@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>E-commerce shop</title>
+</head>
+
+<body>
+    <div>
+        <%- include('./components/header'); %>
+    </div>
+
+    <div class="hero__container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- container for images -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="/images/carousel/carousel_1.jpg" alt="carousel-1" style="width:100%; max-height: 500px;">
+                    <div class="carousel-caption " style="color:black;">
+                        <h3>Furtniture</h3>
+                        <p>WHITE SOFA</p>
+                    </div>
+
+                </div>
+
+                <div class="item">
+                    <img src="/images/carousel/carousel_2.jpg" alt="carousel-2" style="width:100%; max-height: 500px;">
+                    <div class="carousel-caption">
+                        <h3>FASHION</h3>
+                        <p>ALL KINDS OF SHIRTS</p>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <img src="/images/carousel/carousel_3.jpg" alt="carousel-3" style="width:100%; max-height: 500px;">
+                    <div class="carousel-caption">
+                        <h3>Electronics</h3>
+                        <p>DUAL-CELL ULED 4K TV U9DG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ! products section-->
+    <div class="home__container">
+        <div class="home__products">
+            <h3>Top Sellers</h3>
+
+            <div class="all-products">
+                <% for (var i=0 ; i <=2 ; i++) { %>
+                    <div class="product-container">
+                        <h4>
+                            <%= product[i].name %>
+                        </h4>
+                        <div class="image-div">
+                            <a href="/products"><img class="product-image" src="<%= product[i].image %>"
+                                    alt="product-image"></a>
+                        </div>
+
+                        <p>
+                            HKD $<%= product[i].price %>
+                        </p>
+
+                        <% if(product[i].instock) {%>
+                            <div class="btn-div">
+                                <p><a href="#" class="btn btn-primary" role="button">Add to cart</a> </p>
+                            </div>
+                            <% } else { %>
+                                <p class="btn btn-danger">Out of Stock </p>
+                                <%} %>
+                    </div>
+                    <% } %>
+            </div>
+
+            <div class="all-products">
+                <% for (var i=3 ; i <=5 ; i++) { %>
+                    <div class="product-container">
+                        <h4>
+                            <%= product[i].name %>
+                        </h4>
+                        <div class="image-div">
+                            <a href="/products"><img class="product-image" src="<%= product[i].image %>"
+                                    alt="product-image"></a>
+                        </div>
+
+                        <p>
+                            HKD $<%= product[i].price %>
+                        </p>
+
+                        <% if(product[i].instock) {%>
+                            <div class="btn-div">
+                                <p><a href="#" class="btn btn-primary" role="button">Add to cart</a> </p>
+                            </div>
+                            <% } else { %>
+                                <div class="btn-div">
+                                    <p class="btn btn-danger">Out of Stock </p>
+                                </div>
+                                <%} %>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+
+        <div>
+            <%- include('./components/footer'); %>
+        </div>
+</body>
+
+</html>

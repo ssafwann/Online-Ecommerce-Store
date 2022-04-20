@@ -1,0 +1,70 @@
+footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  background-color: #212b36;
+}
+
+.footer__button:hover {
+  background-color: #4a5a6d;
+}
+
+.footer__button > button {
+  background-color: transparent;
+  border: transparent;
+  color: white;
+  width: 100%;
+}
+
+.footer__section {
+  background-color: #000000;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+
+.footer__category > h6,
+.footer__contact > h6 {
+  font-size: 18px;
+}
+
+.footer__category > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.footer__category > ul > a > li {
+  line-height: 30px;
+  letter-spacing: 0.2em;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.footer__category > ul > a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer__contact > p {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 850px) {
+  .footer__section {
+    gap: 50px;
+  }
+}

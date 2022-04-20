@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+body {
+  font-family: Poppins, sans-serif;
+  background-color: #f6f6f6;
+}
+
+.signin {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f6f6;
+}
+
+.signin > a {
+  text-decoration: none;
+  color: black;
+}
+
+.signin > a > h1 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 72px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.signin__container {
+  width: 410px;
+  height: 400px;
+  background: #ffffff;
+  border: 1px solid #d3d3d3;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.signin__container > h2 {
+  font-style: normal;
+  font-weight: 400;
+  width: 90%;
+  margin: 20px auto 15px auto;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 31px;
+  border-bottom: 1px solid #000000;
+}
+
+form,
+.signin__container > p {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto 0 auto;
+}
+
+form > label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+form > input {
+  margin-bottom: 20px;
+  height: 50px;
+  padding-left: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+form > input::placeholder {
+  color: #808080;
+  font-size: 12px;
+}
+
+.signin__loginButton {
+  background: #212b36;
+  border: 1px solid #212b36;
+  box-sizing: border-box;
+  border-radius: 2px;
+  height: 40px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: white !important;
+}
+
+.signin__loginButton:hover {
+  background-color: #2e3d4d;
+}
+
+.signin__loginButton:active {
+  border: 1px solid black;
+}
+
+.signin__info {
+  font-size: 13px;
+}
+
+/* for tablets */
+@media only screen and (min-device-width: 768px) {
+}
+
+/* for phones */
+@media only screen and (max-width: 480px) {
+  .signin > h1 {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+
+  .signin__container {
+    width: 390px;
+  }
+}

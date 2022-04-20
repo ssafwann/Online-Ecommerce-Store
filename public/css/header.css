@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  font-family: Poppins, sans-serif;
+}
+
+/*  ? maybe remove this */
+/* .container-fluid {
+    padding-top: 10px;
+    padding-bottom: 10px;
+} */
+
+.navbar {
+  border-radius: 0px !important;
+  background-color: #2c3b4e !important;
+  color: #ffffff;
+  margin-bottom: 0px !important;
+}
+
+.navbar-header > .navbar-brand {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 21px;
+  color: white !important;
+}
+
+.navbar-header > .navbar-brand > span {
+  color: red;
+}
+
+.navbar-header > .navbar-brand:hover {
+  color: red;
+}
+
+.nav > li > a {
+  color: white !important;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.nav > .active > a {
+  background-color: #232f3f !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav > li:hover {
+  background-color: #232f3f;
+}
+
+.navbar-right {
+  background-color: black;
+}
+
+.navbar-right > li:hover {
+  background-color: black;
+}
+
+.navbar-right > li > a:hover {
+  color: white !important;
+}
+
+.navbar-right > .active > a {
+  background-color: white !important;
+  color: black !important;
+}
+
+.navbar-right > li > a > .glyphicon {
+  margin-right: 3px;
+}
+
+.navbar-right > li > a .cart-amount {
+  font-size: 11px;
+}
+
+.dropdown > .btn-primary {
+  color: #fff;
+  background-color: black !important;
+  border: none !important;
+  border-radius: 0px;
+  height: 50px;
+}
+
+.dropdown > .btn-primary:hover {
+  border-radius: 0px !important;
+  border: none !important;
+  background-color: none !important;
+}
