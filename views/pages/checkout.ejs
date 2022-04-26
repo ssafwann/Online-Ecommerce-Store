@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/css/checkout.css">
+    <title>Document</title>
+
+    <script>
+        $(document).ready(function () {
+            $("#btn_submit").click(function () {
+
+                var email = $("#address").val();
+                console.log(email);
+
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- ! header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <!-- ! checkout stuff-->
+    <div class="checkoutpage__container">
+        <h4>Checkout <span>(<%=products.length %> ITEM)</span></h4>
+
+        <div class="checkout__container">
+            <div class="checkout__info">
+                <h5>Review Items</h5>
+
+                <div class="checkoutproduct__container">
+                    <% products.forEach(product=> { %>
+                        <div class="checkout-product">
+                            <div class="checkoutproduct__image">
+                                <img src="<%=product.image%>" alt="product">
+                            </div>
+                            <div class="checkoutproduct__info">
+                                <h4>
+                                    <%=product.name%>
+                                </h4>
+                                <p>$
+                                    <%=product.price%>
+                                </p>
+                            </div>
+
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+
+            <div class="checkout__details">
+                <h5>Order Details</h5>
+                <div class="details">
+                    <div class="checkout__form">
+                        <form>
+                            <p>
+                            </p>
+                            <div class="form__optionOne">
+                                <label for="">Delivery Address:</label>
+                                <input id="address" type="address" placeholder="Enter your delivery address" required />
+                            </div>
+                            <div class="form__optionTwo">
+                                <input type="radio" checked>
+                                <label for=""> Payment By Cash</label>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="checkout__complete">
+                <div class="checkout__completeInfo">
+                    <h4>Order Total: $<%= cart.subtotal %> (<%=cart.totalQuantity%> ITEM)</h4>
+                    <button id="btn_submit">PAY & ORDER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ! header -->
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+</body>
+
+</html>

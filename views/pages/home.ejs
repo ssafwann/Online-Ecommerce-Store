@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/products.css">
     <title>E-commerce shop</title>
 </head>
 
 <body>
     <div>
-        <%- include('./components/header'); %>
+        <%- include('../components/header'); %>
     </div>
 
     <div class="hero__container">
@@ -78,8 +76,8 @@
                             <%= product[i].name %>
                         </h4>
                         <div class="image-div">
-                            <a href="/products"><img class="product-image" src="<%= product[i].image %>"
-                                    alt="product-image"></a>
+                            <a href="/products/<%=product[i].category%>/<%=product[i]._id%>"><img class="product-image"
+                                    src="<%= product[i].image %>" alt="product-image"></a>
                         </div>
 
                         <p>
@@ -87,11 +85,13 @@
                         </p>
 
                         <% if(product[i].instock) {%>
-                            <div class="btn-div">
-                                <p><a href="#" class="btn btn-primary" role="button">Add to cart</a> </p>
-                            </div>
+                            <a href="/addtocart/<%=product[i]._id%>">
+                                <button class="addtocartBtn">Add To Cart
+                                </button>
+                            </a>
                             <% } else { %>
-                                <p class="btn btn-danger">Out of Stock </p>
+                                <button class="outofstockBtn">Out of Stock
+                                </button>
                                 <%} %>
                     </div>
                     <% } %>
@@ -104,8 +104,8 @@
                             <%= product[i].name %>
                         </h4>
                         <div class="image-div">
-                            <a href="/products"><img class="product-image" src="<%= product[i].image %>"
-                                    alt="product-image"></a>
+                            <a href="/products/<%=product[i].category%>/<%=product[i]._id%>"><img class="product-image"
+                                    src="<%= product[i].image %>" alt="product-image"></a>
                         </div>
 
                         <p>
@@ -113,13 +113,13 @@
                         </p>
 
                         <% if(product[i].instock) {%>
-                            <div class="btn-div">
-                                <p><a href="#" class="btn btn-primary" role="button">Add to cart</a> </p>
-                            </div>
+                            <a href="/addtocart/<%=product[i]._id%>">
+                                <button class="addtocartBtn">Add To Cart
+                                </button>
+                            </a>
                             <% } else { %>
-                                <div class="btn-div">
-                                    <p class="btn btn-danger">Out of Stock </p>
-                                </div>
+                                <button class="outofstockBtn">Out of Stock
+                                </button>
                                 <%} %>
                     </div>
                     <% } %>
@@ -127,7 +127,7 @@
         </div>
 
         <div>
-            <%- include('./components/footer'); %>
+            <%- include('../components/footer'); %>
         </div>
 </body>
 

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cart.css">
+    <title>E-commerce shop</title>
+    <script>
+        const goToCheckout = (e) => {
+            const checkbox = document.querySelector("#terms");
+
+            if (checkbox.checked) {
+                window.location.replace("/checkout");
+            } else {
+                alert(
+                    "You have to agree to the terms and policy before you proceed to checkout."
+                );
+            }
+        }
+    </script>
+</head>
+
+
+<body>
+    <!-- ! header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <!-- ! cart stuff -->
+    <div class="cartpage__container">
+        <% if (cart !=null) { %>
+            <h4>Your Shopping Cart <span>(<%= cart.totalQuantity %> ITEM)</span></h4>
+
+            <div class="cart__container">
+                <div class="product__container">
+                    <% products.forEach(product=> { %>
+                        <div class="cart-product">
+                            <div class="cartproduct__image">
+                                <img src="<%=product.image%>" alt="product">
+                            </div>
+                            <div class="cartproduct__info">
+                                <h4>
+                                    <%=product.name%>
+                                </h4>
+                                <p>$
+                                    <%=product.price%>
+                                </p>
+                                <a href="/removefromcart/<%=product._id%>">
+                                    <button>REMOVE FROM CART</button>
+                                </a>
+                            </div>
+
+                        </div>
+                        <% }) %>
+                            <div class="cart-info">
+                                <p>
+                                    International orders may incur customs charges that are not
+                                    included in the shipping fee. Please refer to our FAQs for more
+                                    information regarding customs charges/import fees.
+                                </p>
+
+                                <div class="cart__subtotal">
+                                    <h5>
+                                        Subtotal (<%= cart.totalQuantity %> ITEM): $<%= cart.subtotal %>
+                                    </h5>
+                                    <div class="terms__checkbox">
+                                        <input type="checkbox" id="terms">
+                                        <p>I agree to terms and refund policy</p>
+                                    </div>
+
+                                    <button type="button" class="checkout-button" onclick="goToCheckout()">
+                                        PROCEED TO CHECKOUT
+                                    </button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+            <% } else {%>
+                <div class="empty__cart">
+                    <h3>Your cart is empty</h3>
+                </div>
+                <% } %>
+    </div>
+
+    <!-- ! footer -->
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+
+</body>
+
+</html>

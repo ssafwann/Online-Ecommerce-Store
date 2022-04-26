@@ -1,27 +1,37 @@
+const Cart = require("../model/Cart");
 const User = require("../model/User");
-const router = require("../routes");
 
 const getLoginPage = async (req, res) => {
-  res.render("login.ejs");
+  res.render("pages/login.ejs");
 };
 
 const userLogin = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email: email, password: password }, function (err, user) {
-    if (err) {
-      console.log(err);
-      return res.status(500).send();
+  if (email === "" || password === "") {
+    return res.status(404).send();
+  }
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(403).send();
+    // correct user
+  } else if (user.password === password && user.email === email) {
+    console.log("found user");
+    req.session.user = user;
+
+    // check if user has a cart in database, if yes then save to session
+    var usercart = await Cart.findOne({ user: user._id });
+    if (usercart) {
+      req.session.cart = usercart;
     }
 
-    if (!user) {
-      return res.status(404).send();
-    }
-    console.log("found user");
-    req.session.user = user; // save user into session
     return res.status(200).send();
-  });
+  } else if (user.password !== password && user.email === email) {
+    return res.status(402).send();
+  }
 };
 
 const logOut = async (req, res) => {

@@ -26,16 +26,26 @@
                     dataType: 'json',
                     data: obj,
                     statusCode: {
+                        // wrong username and password
                         404: function () {
-                            //do somethign with error 404
                             $("#div_result")
                                 .html(`<div class="alert alert-danger" role="alert"> <strong>Wrong Username and Password<strong></div>`);
+                        },
+                        // wrong email -> no such user
+                        403: function () {
+                            $("#div_result")
+                                .html(`<div class="alert alert-danger" role="alert"> <strong>No such user<strong></div>`);
+                        },
+                        // wrong password
+                        402: function () {
+                            $("#div_result")
+                                .html(`<div class="alert alert-danger" role="alert"> <strong>Wrong Password<strong></div>`);
                         },
                         500: function () {
                             alert('Error: 500: Server error occurred.');
                         },
                         200: function () {
-                            window.location.replace("http://localhost:8000");
+                            window.location.replace("/");
                         }
                     },
                 });

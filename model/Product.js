@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const TaskSchema = new Schema(
+const ProductSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    descripton: {
+    description: {
       type: String,
       required: true,
     },
@@ -31,12 +31,8 @@ const TaskSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    added: {
-      type: Date,
-      default: Date.now,
-    },
   },
   { versionKey: false }
 );
 
-module.exports = mongoose.model("Product", TaskSchema);
+module.exports = mongoose.model("Product", ProductSchema);

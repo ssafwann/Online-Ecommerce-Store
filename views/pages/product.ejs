@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/product.css">
+    <title>E-commerce shop</title>
+</head>
+
+<body>
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <div class="product__container">
+        <div class="image__container">
+            <img class="product__image" src="<%= product.image %>" alt="">
+        </div>
+        <div class="product__information">
+            <h1>
+                <%= product.name %>
+            </h1>
+            <div class="product__description">
+                <p><strong>Description:</strong> </p>
+                <p>
+                    <%= product.description %>
+                </p>
+            </div>
+            <p class="product__price">HKD $<%= product.price %>
+            </p>
+            <p class="product__category"><strong>Category: </strong>
+                <%= product.category %>
+            </p>
+            <% if(product.instock) {%>
+                <a href="/addtocart/<%=product._id%>">
+                    <button class="addtocartBtn">Add To Cart
+                    </button>
+                </a>
+                <% } else { %>
+                    <button class="outofstockBtn">Out of Stock
+                    </button>
+                    <%} %>
+        </div>
+    </div>
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+
+</body>
+
+</html>

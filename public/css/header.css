@@ -4,11 +4,9 @@
   font-family: Poppins, sans-serif;
 }
 
-/*  ? maybe remove this */
-/* .container-fluid {
-    padding-top: 10px;
-    padding-bottom: 10px;
-} */
+body {
+  background-color: #eaeded;
+}
 
 .navbar {
   border-radius: 0px !important;
