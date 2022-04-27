@@ -4,6 +4,27 @@
 <head>
     <link rel="stylesheet" href="/css/product.css">
     <title>E-commerce shop</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        function deleteProduct(productID) {
+            $.ajax({
+                url: `/products/delete/${productID}`,
+                type: "DELETE",
+                dataType: 'json',
+                statusCode: {
+                    // success
+                    200: function () {
+                        window.location.href = "/";
+                        alert("the product with ID: " + productID + " was deleted succesfully!")
+                    },
+                    // error 
+                    404: function () {
+                        alert("an error occured please try again")
+                    },
+                }
+            })
+        };
+    </script>
 </head>
 
 <body>
@@ -30,15 +51,26 @@
             <p class="product__category"><strong>Category: </strong>
                 <%= product.category %>
             </p>
-            <% if(product.instock) {%>
-                <a href="/addtocart/<%=product._id%>">
-                    <button class="addtocartBtn">Add To Cart
-                    </button>
+            <% if (user && user.role=="Admin" ) { %>
+                <p class="product__quantity"><strong>Quantity:</strong>
+                    <%=product.quantity%>
+                </p>
+                <a href="/products/modify/<%=product._id%>">
+                    <button class="modifyBtn">Modify product</button>
                 </a>
+                <button id="deleteBtn" class="deleteBtn" onclick="deleteProduct(`<%=product._id%>`)">Delete
+                    product</button>
                 <% } else { %>
-                    <button class="outofstockBtn">Out of Stock
-                    </button>
-                    <%} %>
+                    <% if(product.instock) {%>
+                        <a href="/addtocart/<%=product._id%>">
+                            <button class="addtocartBtn">Add To Cart
+                            </button>
+                        </a>
+                        <% } else { %>
+                            <button class="outofstockBtn">Out of Stock
+                            </button>
+                            <%} %>
+                                <% } %>
         </div>
     </div>
     <div>

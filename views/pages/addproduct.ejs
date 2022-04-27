@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>E-commerce shop</title>
+    <style>
+        .modifyproductpage__container {
+            display: flex;
+            flex-direction: column;
+            max-width: 50%;
+            margin: 40px auto 40px auto;
+            background-color: white;
+            border: 1px solid #d3d3d3;
+        }
+
+        .modifyproduct__container {
+            padding: 10px;
+            width: 100%;
+        }
+
+        .modifyproduct__container>h4 {
+            text-align: center;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            border-bottom: 1px solid #d3d3d3;
+            margin: 10px auto 10px auto;
+            padding: 10px;
+            padding-bottom: 15px;
+            width: 90%;
+        }
+
+        .modifyproduct__container>form {
+            display: flex;
+            flex-direction: column;
+            margin: 10px auto 10px auto;
+            width: 90%;
+            gap: 20px;
+            padding-top: 10px;
+        }
+
+        .option>label {
+            letter-spacing: 0.1em;
+            margin-right: 5px;
+        }
+
+        .option>input,
+        .option>select {
+            padding: 5px;
+            width: 60%;
+            height: 40px;
+        }
+
+        #price-option {
+            margin-left: 28px;
+        }
+
+        #price-option>label {
+            margin-right: 0px;
+            width: 126px;
+        }
+
+        #price-option>input {
+            width: 63%;
+        }
+
+        .modifyproduct__container>form>.addBtn {
+            background-color: #212b36;
+            color: white;
+            border: none;
+            font-weight: 300;
+            height: 30px;
+            margin: 0px auto 0 auto;
+            width: 15%;
+
+        }
+
+        @media (max-width: 1000px) {
+            .modifyproductpage__container {
+                max-width: 70%;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .modifyproduct__container>h4 {
+                font-size: 16px;
+            }
+
+            .modifyproductpage__container {
+                max-width: 98%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .modifyproduct__container>h4 {
+                font-size: 14px;
+            }
+
+            .modifyproductpage__container {
+                max-width: 98%;
+            }
+
+            .option>input {
+                padding: 5px;
+                width: 45%;
+                font-size: 12px;
+            }
+
+            #price-option {
+                margin-left: 0px;
+            }
+
+            #price-option>input {
+                width: 53%;
+            }
+
+            .modifyproduct__container>form>.addBtn {
+                width: 40%;
+            }
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#addBtn").click(function () {
+
+                var obj = {
+                    name: $("#name").val(),
+                    description: $("#description").val(),
+                    category: $("#category").val(),
+                    image: $("#image").val(),
+                    quantity: $("#quantity").val(),
+                    price: $("#price").val(),
+                };
+
+                $.ajax({
+                    url: "/products/add",
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    statusCode: {
+                        // success
+                        200: function (data) {
+                            window.location.href = `/products/${data.category}/${data._id}`;
+                        },
+                        // user didnt enter all details
+                        403: function () {
+                            alert("please enter all the details")
+                        },
+                        // error 
+                        404: function () {
+                            alert("an error occured please try again")
+                        }
+                    },
+                });
+
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <!-- ! header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <div class="modifyproductpage__container">
+        <div class="modifyproduct__container">
+            <h4> Enter product details
+            </h4>
+            <form>
+                <div class="option">
+                    <label for="">Product name:</label>
+                    <input type="text" id="name" placeholder="Enter product name " required>
+                </div>
+                <div class="option">
+                    <label for="">Product description:</label>
+                    <input type="text" id="description" placeholder="Enter product description " required>
+                </div>
+                <div class="option">
+                    <label for="category">Product category:</label>
+                    <select name="category" id="category">
+                        <option selected disabled>Select a category</option>
+                        <option value="fashion">fashion</option>
+                        <option value="electronics">electronics</option>
+                        <option value="furniture">furniture</option>
+                        <option value="books">books</option>
+                    </select>
+                </div>
+                <div class="option">
+                    <label for="">Product image:</label>
+                    <input type="text" id="image" placeholder="Enter product image URL " required>
+                </div>
+                <div class="option">
+                    <label for="">Product quantity:</label>
+                    <input type="number" id="quantity" min="1" placeholder="Enter product quantity " required>
+                </div>
+                <div class="option">
+                    <label for="">Product price: </label>
+                    <input type="number" id="price" min="1" placeholder="Enter product price" required>
+                </div>
+                <button type="button" id="addBtn" class="addBtn">add</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -22,9 +22,10 @@ app.use(
   })
 );
 
+// variables that all routes should have
 app.use(async (req, res, next) => {
   try {
-    res.locals.user = req.user;
+    res.locals.currentuser = req.user;
     res.locals.cart = req.cart;
     res.locals.session = req.session;
     next();
@@ -35,13 +36,11 @@ app.use(async (req, res, next) => {
 
 // routes config
 const indexRouter = require("./routes/index");
-const loginRouter = require("./routes/login");
+const userRouter = require("./routes/user");
 const productRouter = require("./routes/products");
 app.use("/products", productRouter);
-app.use("/user", loginRouter);
+app.use("/user", userRouter);
 app.use("/", indexRouter);
-
-// variables that all routes should have
 
 // connecting database and server
 const connectDB = require("./db/connect");

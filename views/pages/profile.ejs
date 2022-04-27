@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/profile.css">
+    <title>E-commerce shop</title>
+</head>
+
+<body>
+
+    <!-- header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <!-- profile page stuff -->
+    <div class="profilepage__container">
+        <% if (userorders.length> 0) { %>
+            <h4>Your Orders</h4>
+            <div class="profile__container">
+                <% userorders.forEach(order=> { %>
+                    <div class="order__container">
+                        <h5>
+                            <%= order._id%>
+                        </h5>
+                        <div class="order__info">
+                            <p>
+                                <%= order.deliveryaddress%>
+                            </p>
+                            <p>
+                                <%= order.orderdate.toLocaleString("en-HK") %>
+                            </p>
+                        </div>
+                        <div class="order__items">
+                            <h3>Items:</h2>
+                                <% order.products.forEach(product=> {%>
+                                    <div class="order__products">
+                                        <p>
+                                            <%= product.name %>
+                                        </p>
+                                        <p>
+                                            $<strong>
+                                                <%= product.price %>
+                                            </strong>
+                                        </p>
+                                    </div>
+                                    <% }) %>
+                        </div>
+                        <div class="order__details">
+                            <p><strong>Total Items: </strong>
+                                <%= order.totalQuantity%>
+                            </p>
+                            <p><strong>Subtotal: </strong>$<%= order.subtotal%>
+                            </p>
+                        </div>
+
+
+                    </div>
+                    <% }) %>
+            </div>
+            <% } else {%>
+                <h4>You have no orders</h4>
+                <% }%>
+
+    </div>
+
+    <!-- ! footer -->
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+
+</body>
+
+</html>

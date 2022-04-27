@@ -84,15 +84,24 @@
                             HKD $<%= product[i].price %>
                         </p>
 
-                        <% if(product[i].instock) {%>
-                            <a href="/addtocart/<%=product[i]._id%>">
-                                <button class="addtocartBtn">Add To Cart
+                        <% if (user && user.role=="Admin" ) { %>
+                            <a href="/products/modify/<%=product[i]._id%>">
+                                <button class="modifyBtn">Modify product
                                 </button>
                             </a>
                             <% } else { %>
-                                <button class="outofstockBtn">Out of Stock
-                                </button>
-                                <%} %>
+                                <% if(product[i].instock) {%>
+                                    <a href="/addtocart/<%=product[i]._id%>">
+                                        <button class="addtocartBtn">Add To Cart
+                                        </button>
+                                    </a>
+                                    <% } else { %>
+                                        <button class="outofstockBtn">Out of Stock
+                                        </button>
+                                        <%} %>
+                                            <% } %>
+
+
                     </div>
                     <% } %>
             </div>
@@ -112,15 +121,22 @@
                             HKD $<%= product[i].price %>
                         </p>
 
-                        <% if(product[i].instock) {%>
-                            <a href="/addtocart/<%=product[i]._id%>">
-                                <button class="addtocartBtn">Add To Cart
+                        <% if (user && user.role=="Admin" ) { %>
+                            <a href="/products/modify/<%=product[i]._id%>">
+                                <button class="modifyBtn">Modify product
                                 </button>
                             </a>
                             <% } else { %>
-                                <button class="outofstockBtn">Out of Stock
-                                </button>
-                                <%} %>
+                                <% if(product[i].instock) {%>
+                                    <a href="/addtocart/<%=product[i]._id%>">
+                                        <button class="addtocartBtn">Add To Cart
+                                        </button>
+                                    </a>
+                                    <% } else { %>
+                                        <button class="outofstockBtn">Out of Stock
+                                        </button>
+                                        <%} %>
+                                            <% } %>
                     </div>
                     <% } %>
             </div>

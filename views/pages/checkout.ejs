@@ -7,16 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="/css/checkout.css">
-    <title>Document</title>
+    <title>E-commerce shop</title>
 
     <script>
         $(document).ready(function () {
             $("#btn_submit").click(function () {
 
-                var email = $("#address").val();
-                console.log(email);
+                var obj = {
+                    deliveryaddress: $("#address").val(),
+                }
 
+                $.ajax({
+                    url: '/checkout',
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    statusCode: {
+                        // successful checkout
+                        200: function () {
+                            window.location.replace("/user/profile");
+                        },
+                        // user didnt entry delivery address
+                        403: function () {
+                            alert("please enter your delivery address");
+                        },
+                        // unsuccessful checkout
+                        404: function () {
+                            alert("an error occured please try again");
+                        },
+                    },
+                });
             });
+
         });
     </script>
 

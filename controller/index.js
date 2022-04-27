@@ -1,16 +1,16 @@
 const Product = require("../model/Product");
 const Cart = require("../model/Cart");
-const res = require("express/lib/response");
+const Order = require("../model/Order");
 
 const getIndexPage = async (req, res) => {
-  const products = await Product.find().limit(6).sort({ price: "desc" });
-
-  // sort array according to price
-  products.sort((a, b) => {
-    return b.price - a.price;
-  });
-
   try {
+    const products = await Product.find().limit(6).sort({ price: "desc" });
+
+    // sort array according to price
+    products.sort((a, b) => {
+      return b.price - a.price;
+    });
+
     res.render("pages/home.ejs", {
       user: req.session.user,
       product: products,
@@ -18,7 +18,6 @@ const getIndexPage = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.redirect("/");
   }
 };
 
@@ -41,7 +40,7 @@ const getAddToCart = async (req, res) => {
       cart = usercart;
     }
 
-    // find product
+    // find product and add to cart and update cart details
     const productToAddID = req.params.id;
     const productToAdd = await Product.findById(productToAddID);
     cart.products.push({
@@ -71,7 +70,6 @@ const getAddToCart = async (req, res) => {
 const getCartPage = async (req, res) => {
   try {
     var usercart;
-
     // check if user exsists, if yes then check if he has a cart in db
     if (req.user) {
       usercart = await Cart.findOne({ user: req.session.user._id });
@@ -108,60 +106,51 @@ const getCartPage = async (req, res) => {
   }
 };
 
-// create products array to store the info of each product in the cart
-const productsInCart = async (cart) => {
-  var products = [];
-
-  for (var i = 0; i < cart.products.length; i++) {
-    var cartproduct = await Product.findById(cart.products[i].productID).lean();
-    products.push(cartproduct);
-  }
-
-  return products;
-};
-
 const removeFromCart = async (req, res) => {
   try {
-    const toRemoveproductID = req.params.id;
+    if (req.session.cart) {
+      const toRemoveproductID = req.params.id;
 
-    // get user cart from db if logged in otherwise session
-    var usercart;
-    if (req.session.user) {
-      usercart = await Cart.findOne({ user: req.session.user._id });
-    } else if (req.session.cart) {
-      usercart = await new Cart(req.session.cart);
-    }
-
-    var productToRemove;
-    var productIndex;
-
-    for (var i = 0; i < usercart.products.length; i++) {
-      var cartproductID = usercart.products[i].productID.toString();
-      if (cartproductID === toRemoveproductID) {
-        productToRemove = usercart.products[i];
-        productIndex = i;
+      // get user cart from db if logged in otherwise session
+      var usercart;
+      if (req.session.user) {
+        usercart = await Cart.findOne({ user: req.session.user._id });
+      } else if (req.session.cart) {
+        usercart = await new Cart(req.session.cart);
       }
+
+      var productToRemove;
+      var productIndex;
+
+      // find the product in cart that user wants to remove
+      for (var i = 0; i < usercart.products.length; i++) {
+        var cartproductID = usercart.products[i].productID.toString();
+        if (cartproductID === toRemoveproductID) {
+          productToRemove = usercart.products[i];
+          productIndex = i;
+        }
+      }
+
+      // update details and remove product
+      usercart.totalQuantity = usercart.totalQuantity - 1;
+      usercart.subtotal = usercart.subtotal - productToRemove.price;
+      usercart.products.remove({ _id: usercart.products[productIndex]._id });
+
+      req.session.cart = usercart;
+
+      // save into database if user logged in
+      if (req.session.user) {
+        await usercart.save();
+      }
+
+      // remove cart from database if total quantity is 0
+      if (usercart.totalQuantity <= 0) {
+        req.session.cart = null;
+        await Cart.findByIdAndRemove(usercart._id);
+      }
+
+      res.redirect(req.headers.referer);
     }
-
-    // update details and remove product
-    usercart.totalQuantity = usercart.totalQuantity - 1;
-    usercart.subtotal = usercart.subtotal - productToRemove.price;
-    usercart.products.remove({ _id: usercart.products[productIndex]._id });
-
-    req.session.cart = usercart;
-
-    // save into database if user logged in
-    if (req.session.user) {
-      await usercart.save();
-    }
-
-    // remove cart from database if total quantity is 0
-    if (usercart.totalQuantity <= 0) {
-      req.session.cart = null;
-      await Cart.findByIdAndRemove(usercart._id);
-    }
-
-    res.redirect(req.headers.referer);
   } catch (error) {
     console.log(error);
   }
@@ -183,10 +172,63 @@ const getCheckoutPage = async (req, res) => {
   }
 };
 
+const postCheckoutPage = async (req, res) => {
+  try {
+    if (req.session.cart && req.session.user) {
+      const deliveryaddress = req.body.deliveryaddress;
+
+      if (deliveryaddress == "") {
+        return res.status(403).send();
+      }
+
+      const usercart = await Cart.findOne({ user: req.session.user._id });
+
+      // create the order
+      const order = await Order.create({
+        user: req.session.user._id,
+        totalQuantity: usercart.totalQuantity,
+        subtotal: usercart.subtotal,
+        deliveryaddress: deliveryaddress,
+        orderdate: new Date(),
+        deliverystatus: false,
+        products: usercart.products,
+      });
+
+      // save onto database
+      order.save(async (err, userorder) => {
+        if (err) {
+          console.log(error);
+          return res.status(404).send();
+        }
+        await usercart.save();
+        await Cart.findByIdAndDelete(usercart._id);
+        req.session.cart = null;
+        return res.status(200).send();
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send();
+  }
+};
+
+// create products array to store the info of each product in the cart
+const productsInCart = async (cart) => {
+  var products = [];
+
+  for (var i = 0; i < cart.products.length; i++) {
+    var cartproduct = await Product.findById(cart.products[i].productID).lean();
+    products.push(cartproduct);
+  }
+
+  return products;
+};
+
 module.exports = {
   getIndexPage,
   getAddToCart,
   getCartPage,
   removeFromCart,
   getCheckoutPage,
+  postCheckoutPage,
 };

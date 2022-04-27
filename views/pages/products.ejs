@@ -1,0 +1,125 @@
+<head>
+    <title>E-commerce shop</title>
+    <link rel="stylesheet" href="/css/products.css">
+</head>
+
+<body>
+    <!-- ! header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <!-- ! category stuff -->
+    <div class="category__container">
+
+        <!-- category is search-->
+        <% if (category=="Search" ) { %>
+            <!-- category is empty-->
+            <% if (products.length <=0) { %>
+                <div class="empty__products">
+                    <p class="search-heading ">
+                        <strong>
+                            <%=products.length%>
+                        </strong> search results were found
+                    </p>
+                </div>
+                <% } else {%>
+                    <p class="search-heading">
+                        <strong>
+                            <%=products.length%>
+                        </strong> search results were found
+                    </p>
+                    <div class="all__products">
+                        <% products.forEach((product)=> {%>
+                            <div class="product__container">
+                                <h4>
+                                    <%= product.name %>
+                                </h4>
+                                <div class="image-div">
+                                    <a href="/products/<%=product.category%>/<%=product._id%>"><img
+                                            class="product-image" src="<%= product.image %>" alt="product"></a>
+                                </div>
+                                <p>
+                                    HKD $<%= product.price %>
+                                </p>
+
+                                <% if (user && user.role=="Admin" ) { %>
+                                    <a href="/modifyproduct/<%=product._id%>">
+                                        <button class="modifyBtn">Modify product
+                                        </button>
+                                    </a>
+                                    <% } else { %>
+                                        <% if(product.instock) {%>
+                                            <a href="/addtocart/<%=product._id%>">
+                                                <button class="addtocartBtn">Add To Cart
+                                                </button>
+                                            </a>
+                                            <% } else { %>
+                                                <button class="outofstockBtn">Out of Stock
+                                                </button>
+                                                <%} %>
+                                                    <% } %>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% }%>
+
+
+
+                        <% } else {%>
+                            <!-- category is not search-->
+                            <div class="category__banner">
+                                <img class="banner__image" src="/images/category/banner__<%=category%>.png"
+                                    alt="banner">
+                                <p>
+                                    <%= category %>
+                                </p>
+                            </div>
+
+                            <div class="all__products">
+                                <% products.forEach((product)=> {%>
+                                    <div class="product__container">
+                                        <h4>
+                                            <%= product.name %>
+                                        </h4>
+                                        <div class="image-div">
+                                            <a href="/products/<%=product.category%>/<%=product._id%>"><img
+                                                    class="product-image" src="<%= product.image %>" alt="product"></a>
+                                        </div>
+                                        <p>
+                                            HKD $<%= product.price %>
+                                        </p>
+
+                                        <% if (user && user.role=="Admin" ) { %>
+                                            <a href="/products/modify/<%=product._id%>">
+                                                <button class="modifyBtn">Modify product
+                                                </button>
+                                            </a>
+                                            <% } else { %>
+                                                <% if(product.instock) {%>
+                                                    <a href="/addtocart/<%=product._id%>">
+                                                        <button class="addtocartBtn">Add To Cart
+                                                        </button>
+                                                    </a>
+                                                    <% } else { %>
+                                                        <button class="outofstockBtn">Out of Stock
+                                                        </button>
+                                                        <%} %>
+                                                            <% } %>
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+
+                            <% } %>
+
+
+    </div>
+
+    <!-- ! footer -->
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+
+    </div>
+</body>

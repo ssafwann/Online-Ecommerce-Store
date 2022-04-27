@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce shop</title>
+    <link rel="stylesheet" href="/css/modifyproduct.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        function modifyProduct(productID) {
+            var obj = {
+                newprice: $("#price").val(),
+                newquantity: $("#quantity").val(),
+            };
+            $.ajax({
+                url: `/products/modify/${productID}`,
+                type: "patch",
+                dataType: 'json',
+                data: obj,
+                statusCode: {
+                    // success
+                    200: function (data) {
+                        window.location.href = `/products/${data.category}/${data._id}`;
+                    },
+                    // user didnt enter all details
+                    403: function () {
+                        alert("please enter all the details")
+                    },
+                    // error 
+                    404: function () {
+                        alert("an error occured please try again")
+                    },
+                }
+            })
+        };
+
+    </script>
+</head>
+
+<body>
+
+    <!-- ! header -->
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <div class="modifyproductpage__container">
+        <div class="modifyproduct__container">
+            <h4> Product #<%=product._id%>
+            </h4>
+            <form>
+                <div class="option">
+                    <label for="">Product quantity:</label>
+                    <input type="number" id="quantity" min="1" placeholder="Enter product quantity " required>
+                </div>
+                <div class="option" id="price-option">
+                    <label for="">Product price: </label>
+                    <input type="number" id="price" min="1" placeholder="Enter product price" required>
+                </div>
+                <button type="button" id="modifyBtn" class="modifyBtn"
+                    onclick="modifyProduct(`<%=product._id%>`)">modify</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
