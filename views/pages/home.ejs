@@ -84,12 +84,12 @@
                             HKD $<%= product[i].price %>
                         </p>
 
-                        <% if (user && user.role=="Admin" ) { %>
+                        <% if (user && product[i].shop==user.name) { %>
                             <a href="/products/modify/<%=product[i]._id%>">
                                 <button class="modifyBtn">Modify product
                                 </button>
                             </a>
-                            <% } else { %>
+                            <% } else if (!user || user.role=="Customer" ) { %>
                                 <% if(product[i].instock) {%>
                                     <a href="/addtocart/<%=product[i]._id%>">
                                         <button class="addtocartBtn">Add To Cart
@@ -100,8 +100,6 @@
                                         </button>
                                         <%} %>
                                             <% } %>
-
-
                     </div>
                     <% } %>
             </div>
@@ -121,12 +119,12 @@
                             HKD $<%= product[i].price %>
                         </p>
 
-                        <% if (user && user.role=="Admin" ) { %>
+                        <% if (user && product[i].shop==user.name) { %>
                             <a href="/products/modify/<%=product[i]._id%>">
                                 <button class="modifyBtn">Modify product
                                 </button>
                             </a>
-                            <% } else { %>
+                            <% } else if (!user || user.role=="Customer" ) { %>
                                 <% if(product[i].instock) {%>
                                     <a href="/addtocart/<%=product[i]._id%>">
                                         <button class="addtocartBtn">Add To Cart

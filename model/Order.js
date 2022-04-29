@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema(
     },
     orderdate: {
       type: Date,
-      default: Date.now,
+      default: new Date(),
     },
     deliverystatus: {
       type: Boolean,

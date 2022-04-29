@@ -17,7 +17,7 @@
 
     <div class="userorderspage__container">
         <% if (allorders.length> 0) { %>
-            <h4>Users Orders</h4>
+            <h4>All users orders</h4>
             <div class="userorders__container">
                 <% allorders.forEach(order=> { %>
                     <div class="order__container">
@@ -40,7 +40,7 @@
                                 <% order.products.forEach(product=> {%>
                                     <div class="order__products">
                                         <p>
-                                            <%= product.name %>
+                                            <%= product.name %> <strong>from: Catalog</strong>
                                         </p>
                                         <p>
                                             $<strong>

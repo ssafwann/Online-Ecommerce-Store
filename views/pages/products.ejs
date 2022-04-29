@@ -43,12 +43,12 @@
                                     HKD $<%= product.price %>
                                 </p>
 
-                                <% if (user && user.role=="Admin" ) { %>
+                                <% if (user && product.shop==user.name) { %>
                                     <a href="/modifyproduct/<%=product._id%>">
                                         <button class="modifyBtn">Modify product
                                         </button>
                                     </a>
-                                    <% } else { %>
+                                    <% } else if (!user || user.role=="Customer" ) { %>
                                         <% if(product.instock) {%>
                                             <a href="/addtocart/<%=product._id%>">
                                                 <button class="addtocartBtn">Add To Cart
@@ -63,9 +63,6 @@
                             <% }) %>
                     </div>
                     <% }%>
-
-
-
                         <% } else {%>
                             <!-- category is not search-->
                             <div class="category__banner">
@@ -90,12 +87,12 @@
                                             HKD $<%= product.price %>
                                         </p>
 
-                                        <% if (user && user.role=="Admin" ) { %>
-                                            <a href="/products/modify/<%=product._id%>">
+                                        <% if (user && product.shop==user.name) { %>
+                                            <a href="/modifyproduct/<%=product._id%>">
                                                 <button class="modifyBtn">Modify product
                                                 </button>
                                             </a>
-                                            <% } else { %>
+                                            <% } else if (!user || user.role=="Customer" ) { %>
                                                 <% if(product.instock) {%>
                                                     <a href="/addtocart/<%=product._id%>">
                                                         <button class="addtocartBtn">Add To Cart

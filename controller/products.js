@@ -1,4 +1,6 @@
 const Product = require("../model/Product");
+const Review = require("../model/Review");
+const Order = require("../model/Order");
 
 // for the "All" products page
 const getAllProducts = async (req, res) => {
@@ -21,13 +23,65 @@ const getSingleProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
-    if (product) {
-      res.render("pages/product", {
+    const productreviews = await Review.find({
+      product: req.params.id,
+    }).sort({ reviewdate: "desc" });
+
+    if (req.session.user) {
+      const hasUserReviewed = await Review.findOne({
+        product: req.params.id,
+        user: req.session.user._id,
+      });
+
+      if (hasUserReviewed) {
+        return res.render("pages/product", {
+          product: product,
+          user: req.session.user,
+          cart: req.session.cart,
+          productreviews: productreviews,
+          hasUserReviewed: true,
+          hasUserOrdered: false,
+        });
+      }
+    }
+    // ! check if user has already ordered this product
+    if (req.session.user) {
+      const userorders = await Order.find({ user: req.session.user._id });
+
+      var hasUserOrdered = false;
+      for (var i = 0; i < userorders.length; i++) {
+        // if found that he ordered then exit
+        if (hasUserOrdered == true) {
+          break;
+        }
+
+        for (var j = 0; j < userorders[i].products.length; j++) {
+          if (userorders[i].products[j].productID == req.params.id) {
+            hasUserOrdered = true;
+            break;
+          }
+        }
+      }
+
+      return res.render("pages/product", {
         product: product,
         user: req.session.user,
         cart: req.session.cart,
+        productreviews: productreviews,
+        hasUserReviewed: false,
+        hasUserOrdered: hasUserOrdered,
       });
     }
+
+    // user is logged out
+    return res.render("pages/product", {
+      product: product,
+      user: req.session.user,
+      cart: req.session.cart,
+      productreviews: productreviews,
+      hasUserReviewed: false,
+      hasUserOrdered: false,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -53,7 +107,7 @@ const getSearchPage = async (req, res) => {
   }
 };
 
-// ! Admin function
+// ! Seller function
 const getModifyPage = async (req, res) => {
   try {
     // make sure only admin can access the url
@@ -72,7 +126,7 @@ const getModifyPage = async (req, res) => {
   }
 };
 
-// ! Admin function
+// ! Seller function
 const postModify = async (req, res) => {
   try {
     const newprice = req.body.newprice;
@@ -105,7 +159,7 @@ const postModify = async (req, res) => {
   }
 };
 
-// ! Admin function
+// ! Seller function
 const getAddPage = async (req, res) => {
   try {
     // make sure only admin can access the url
@@ -122,7 +176,7 @@ const getAddPage = async (req, res) => {
   }
 };
 
-// ! Admin function
+// ! Seller function
 const postAddProduct = async (req, res) => {
   try {
     const name = req.body.name;
@@ -159,6 +213,7 @@ const postAddProduct = async (req, res) => {
       price: parseInt(price),
       quantity: parseInt(quantity),
       instock: instock,
+      shop: req.session.user.name,
     });
 
     // save product onto database
@@ -183,6 +238,35 @@ const deleteProduct = async (req, res) => {
       } else {
         return res.status(200).send();
       }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const postProductReview = async (req, res) => {
+  try {
+    const review = req.body.review;
+
+    if (review == "") {
+      return res.status(403).send();
+    }
+
+    const userreview = await Review.create({
+      user: req.session.user._id,
+      product: req.params.id,
+      reviewdate: new Date(),
+      review: review,
+      name: req.session.user.name,
+    });
+
+    userreview.save(async (err, review) => {
+      if (err) {
+        console.log(err);
+        return res.status(404).send();
+      }
+      const product = await Product.findById(req.params.id);
+      res.status(200).send(product);
     });
   } catch (error) {
     console.log(error);
@@ -216,4 +300,5 @@ module.exports = {
   getAddPage,
   postAddProduct,
   deleteProduct,
+  postProductReview,
 };

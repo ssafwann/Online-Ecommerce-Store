@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/products.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- header -->
+    <div>
+        <%- include('../components/header'); %>
+            <p class="search-heading">
+                <strong>
+                    <%=shopproducts[0].shop%> products
+                </strong>
+            </p>
+            <div class="all__products">
+                <% shopproducts.forEach((product)=> {%>
+                    <div class="product__container">
+                        <h4>
+                            <%= product.name %>
+                        </h4>
+                        <div class="image-div">
+                            <a href="/products/<%=product.category%>/<%=product._id%>"><img class="product-image"
+                                    src="<%= product.image %>" alt="product"></a>
+                        </div>
+                        <p>
+                            HKD $<%= product.price %>
+                        </p>
+
+                        <% if (user && product.shop==user.name) { %>
+                            <a href="/modifyproduct/<%=product._id%>">
+                                <button class="modifyBtn">Modify product
+                                </button>
+                            </a>
+                            <% } else if (!user || user.role=="Customer" ) { %>
+                                <% if(product.instock) {%>
+                                    <a href="/addtocart/<%=product._id%>">
+                                        <button class="addtocartBtn">Add To Cart
+                                        </button>
+                                    </a>
+                                    <% } else { %>
+                                        <button class="outofstockBtn">Out of Stock
+                                        </button>
+                                        <%} %>
+                                            <% } %>
+                    </div>
+                    <% }) %>
+            </div>
+</body>
+
+</html>

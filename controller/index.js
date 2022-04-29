@@ -15,6 +15,7 @@ const getIndexPage = async (req, res) => {
       user: req.session.user,
       product: products,
       cart: req.session.cart,
+      pagename: "home",
     });
   } catch (error) {
     console.log(error);

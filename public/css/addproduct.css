@@ -34,29 +34,17 @@
 
 .option > label {
   letter-spacing: 0.1em;
-  margin-right: 5px;
+  width: 180px;
 }
 
-.option > input {
+.option > input,
+.option > select {
   padding: 5px;
   width: 60%;
   height: 40px;
 }
 
-#price-option {
-  margin-left: 28px;
-}
-
-#price-option > label {
-  margin-right: 0px;
-  width: 126px;
-}
-
-#price-option > input {
-  width: 63%;
-}
-
-.modifyproduct__container > form > .modifyBtn {
+.modifyproduct__container > form > .addBtn {
   background-color: #212b36;
   color: white;
   border: none;
@@ -66,13 +54,13 @@
   width: 15%;
 }
 
-@media (min-width: 710px) and (max-width: 1000px) {
+@media (min-width: 780px) and (max-width: 1100px) {
   .modifyproductpage__container {
     max-width: 70%;
   }
 }
 
-@media (min-width: 501px) and (max-width: 709px) {
+@media (min-width: 580px) and (max-width: 779px) {
   .modifyproduct__container > h4 {
     font-size: 16px;
   }
@@ -82,7 +70,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 579px) {
   .modifyproduct__container > h4 {
     font-size: 14px;
   }
@@ -91,18 +79,16 @@
     max-width: 98%;
   }
 
-  .option > input {
+  .option > label {
+    font-size: 12px;
+    width: 150px;
+  }
+
+  .option > input,
+  .option > select {
     padding: 5px;
     width: 50%;
     font-size: 12px;
-  }
-
-  #price-option {
-    margin-left: 0px;
-  }
-
-  #price-option > input {
-    width: 58%;
   }
 
   .modifyproduct__container > form > .modifyBtn {

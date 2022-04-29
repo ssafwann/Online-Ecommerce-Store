@@ -24,6 +24,31 @@
                 }
             })
         };
+
+        function addReview(productID) {
+
+            var obj = {
+                review: $("#review").val(),
+            };
+
+            $.ajax({
+                url: `/products/review/${productID}`,
+                type: "POST",
+                data: obj,
+                dataType: "json",
+                statusCode: {
+                    200: function (data) {
+                        window.location.url = `/products/${data.category}/${productID}`
+                    },
+                    403: function () {
+                        alert("please enter all the details")
+                    },
+                }
+            })
+
+            console.log(obj);
+
+        }
     </script>
 </head>
 
@@ -45,13 +70,17 @@
                 <p>
                     <%= product.description %>
                 </p>
+                <p>
+                    <strong>Shop:</strong>
+                    <%=product.shop%>
+                </p>
             </div>
             <p class="product__price">HKD $<%= product.price %>
             </p>
             <p class="product__category"><strong>Category: </strong>
                 <%= product.category %>
             </p>
-            <% if (user && user.role=="Admin" ) { %>
+            <% if (user && product.shop==user.name) { %>
                 <p class="product__quantity"><strong>Quantity:</strong>
                     <%=product.quantity%>
                 </p>
@@ -60,7 +89,7 @@
                 </a>
                 <button id="deleteBtn" class="deleteBtn" onclick="deleteProduct(`<%=product._id%>`)">Delete
                     product</button>
-                <% } else { %>
+                <% } else if (!user || user.role=="Customer" ){ %>
                     <% if(product.instock) {%>
                         <a href="/addtocart/<%=product._id%>">
                             <button class="addtocartBtn">Add To Cart
@@ -73,6 +102,48 @@
                                 <% } %>
         </div>
     </div>
+
+    <div class="product__reviews">
+        <h3>Product Reviews</h3>
+        <div class="review__section">
+            <% if (user && !hasUserReviewed && hasUserOrdered) { %>
+                <div class="review__form">
+                    <h4>Write your own review</h4>
+                    <form action="">
+                        <label for="review">Review:</label>
+                        <textarea name="review" id="review" cols="30" rows="10" required
+                            placeholder="enter your review"></textarea>
+                        <button id="submitReviewBtn" class="submitReviewBtn"
+                            onclick="addReview(`<%=product._id%>`)">Submit
+                            Review</button>
+                    </form>
+                </div>
+                <% } %>
+                    <% if (productreviews.length> 0) { %>
+                        <div class="all__reviews">
+                            <div class="all-reviews">
+                                <h4>User Reviews</h4>
+                                <% productreviews.forEach((review)=> { %>
+                                    <div class="user__reviews">
+                                        <h5 style="font-weight: 600;">
+                                            <%= review.name %>
+                                        </h5>
+                                        <p>
+                                            <%= review.review %>
+                                        </p>
+                                        <p class="review-date"><strong>Review date:</strong>
+                                            <%= review.reviewdate.toDateString("en-HK") %>
+                                        </p>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+                        <% } else if (!hasUserOrdered) {%>
+                            <h4>No user reviews have been made</h4>
+                            <% } %>
+        </div>
+    </div>
+
     <div>
         <%- include('../components/footer'); %>
     </div>

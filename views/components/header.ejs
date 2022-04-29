@@ -25,12 +25,13 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
+
                     <li class="active"><a href="/">HOME</a></li>
-                    <li><a href="/products">ALL</a></li>
-                    <li><a href="/products/fashion">FASHION</a></li>
-                    <li><a href="/products/electronics">ELECTRONICS</a></li>
-                    <li><a href="/products/furniture">FURNITURE</a></li>
-                    <li><a href="/products/books">BOOKS</a></li>
+                    <li class=""><a href="/products">ALL</a></li>
+                    <li class=""><a href="/products/fashion">FASHION</a></li>
+                    <li class=""><a href="/products/electronics">ELECTRONICS</a></li>
+                    <li class=""><a href="/products/furniture">FURNITURE</a></li>
+                    <li class=""><a href="/products/books">BOOKS</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" action="/products/search" method="GET">
                     <div class="form-group">
@@ -47,34 +48,49 @@
                                                 (0)
                                                 <% }%>
                                 </span></a></li>
-                        <% } else { %>
+                        <% } else if (user.role=="Seller" ) { %>
+                            <li><a href="/shop/<%=user.name%>">My Products</a></li>
                             <li><a href="/products/add">Add Product</a></li>
-                            <% }%>
+                            <% } else {%>
+                                <li><a href="/shop/add">Add Shop</a></li>
+                                <% }%>
 
-                                <% if (user) { %>
-                                    <% if (user.role=="Admin" ) { %>
-                                        <li>
-                                            <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                    data-toggle="dropdown">Welcome Admin
-                                                    <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="/user/orders">user orders </a></li>
-                                                    <li><a href="/user/logout">Logout</a></li>
-                                                </ul>
-                                            </div>
-                                            <% } else if (user.role=="Customer" ) { %>
-                                        <li>
-                                            <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                    data-toggle="dropdown">Welcome <%=user.name%>
+
+                                    <% if (user) { %>
+                                        <% if (user.role=="Admin" ) { %>
+                                            <li>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        data-toggle="dropdown">Welcome Admin
                                                         <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="/user/profile">User Profile</a></li>
-                                                    <li><a href="/user/logout">Logout</a></li>
-                                                </ul>
-                                            </div>
-                                            <% } %>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="/user/orders">user orders </a></li>
+                                                        <li><a href="/user/logout">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                                <% } else if (user.role=="Customer" ) { %>
+                                            <li>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        data-toggle="dropdown">Welcome <%=user.name%>
+                                                            <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="/user/profile">User Profile</a></li>
+                                                        <li><a href="/user/logout">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                                <% } else if (user.role=="Seller" ) {%>
+                                            <li>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        data-toggle="dropdown">Welcome <%=user.name%>
+                                                            <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="/shop/orders">shop orders</a></li>
+                                                        <li><a href="/user/logout">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                                <% }%>
 
             </div>
             <% } else {%>

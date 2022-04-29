@@ -38,6 +38,8 @@ app.use(async (req, res, next) => {
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const productRouter = require("./routes/products");
+const shopRouter = require("./routes/shop");
+app.use("/shop", shopRouter);
 app.use("/products", productRouter);
 app.use("/user", userRouter);
 app.use("/", indexRouter);
