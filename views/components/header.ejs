@@ -49,10 +49,11 @@
                                                 <% }%>
                                 </span></a></li>
                         <% } else if (user.role=="Seller" ) { %>
-                            <li><a href="/shop/<%=user.name%>">My Products</a></li>
+                            <li><a href="/shops/products/<%=user.name%>">My Products</a></li>
                             <li><a href="/products/add">Add Product</a></li>
                             <% } else {%>
-                                <li><a href="/shop/add">Add Shop</a></li>
+                                <li><a href="/shops">Shops</a></li>
+                                <li><a href="/shops/add">Add Shop</a></li>
                                 <% }%>
 
 
@@ -86,7 +87,7 @@
                                                         data-toggle="dropdown">Welcome <%=user.name%>
                                                             <span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="/shop/orders">shop orders</a></li>
+                                                        <li><a href="/shops/orders/<%=user.name%>">shop orders</a></li>
                                                         <li><a href="/user/logout">Logout</a></li>
                                                     </ul>
                                                 </div>

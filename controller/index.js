@@ -49,6 +49,7 @@ const getAddToCart = async (req, res) => {
       price: productToAdd.price,
       name: productToAdd.name,
       image: productToAdd.image,
+      shop: productToAdd.shop,
     });
     cart.subtotal = cart.subtotal + productToAdd.price;
     cart.totalQuantity = cart.totalQuantity + 1;

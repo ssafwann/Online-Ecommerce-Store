@@ -17,54 +17,69 @@
 
     <div class="userorderspage__container">
         <% if (allorders.length> 0) { %>
-            <h4>All users orders</h4>
-            <div class="userorders__container">
-                <% allorders.forEach(order=> { %>
-                    <div class="order__container">
-                        <h5>
-                            <%= order._id%>
-                        </h5>
-                        <div class="order__info">
-                            <p><strong>Customer:</strong>
-                                <%= order.user%>
-                            </p>
-                            <p>
-                                <%= order.deliveryaddress%>
-                            </p>
-                            <p>
-                                <%= order.orderdate.toLocaleString("en-HK") %>
-                            </p>
-                        </div>
-                        <div class="order__items">
-                            <h3>Items:</h2>
-                                <% order.products.forEach(product=> {%>
-                                    <div class="order__products">
-                                        <p>
-                                            <%= product.name %> <strong>from: Catalog</strong>
+
+            <% if (user.role==="Seller" ) { %>
+                <h4>
+                    <%=allorders[0].products[0].shop%> orders
+                </h4>
+                <% } else { %>
+                    <h4>Orders</h4>
+                    <% } %>
+                        <div class="userorders__container">
+                            <% allorders.forEach(order=> { %>
+                                <div class="order__container">
+                                    <h5>
+                                        <%= order._id%>
+                                    </h5>
+                                    <div class="order__info">
+                                        <p><strong>Customer:</strong>
+                                            <%= order.user%>
                                         </p>
                                         <p>
-                                            $<strong>
-                                                <%= product.price %>
-                                            </strong>
+                                            <%= order.deliveryaddress%>
+                                        </p>
+                                        <p>
+                                            <%= order.orderdate.toLocaleString("en-HK") %>
                                         </p>
                                     </div>
-                                    <% }) %>
-                        </div>
-                        <div class="order__details">
-                            <p><strong>Total Items: </strong>
-                                <%= order.totalQuantity%>
-                            </p>
-                            <p><strong>Subtotal: </strong>$<%= order.subtotal%>
-                            </p>
-                        </div>
+                                    <div class="order__items">
+                                        <h3>Items:</h2>
+                                            <% order.products.forEach(product=> {%>
+                                                <div class="order__products">
+                                                    <p>
+                                                        <%= product.name %><small
+                                                                style="letter-spacing: 0.05em;"><strong> shop: <%=
+                                                                        product.shop%>
+                                                                </strong></small>
+                                                    </p>
+                                                    <p>
+                                                        $<strong>
+                                                            <%= product.price %>
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                                <% }) %>
+                                    </div>
+                                    <div class="order__details">
+                                        <p><strong>Total Items: </strong>
+                                            <%= order.totalQuantity%>
+                                        </p>
+                                        <p><strong>Subtotal: </strong>$<%= order.subtotal%>
+                                        </p>
+                                    </div>
 
 
-                    </div>
-                    <% }) %>
-            </div>
-            <% } else {%>
-                <h4>You have no orders</h4>
-                <% }%>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } else {%>
+
+                            <% if (user.role==="Seller" ) { %>
+                                <h4 style="height: 400px;">Your shop has no orders</h4>
+                                <% } else { %>
+                                    <h4 style="height: 400px;">No orders have been made</h4>
+                                    <% } %>
+                                        <% }%>
 
     </div>
 

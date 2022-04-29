@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/addproduct.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>E-commerce shop</title>
+    <script>
+        $(document).ready(function () {
+            $("#addBtn").click(function () {
+
+                var obj = {
+                    name: $("#name").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                };
+
+                $.ajax({
+                    url: "/shops/add",
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    statusCode: {
+                        // success
+                        200: function () {
+                            window.location.href = "/shops";
+                        },
+                        // user didnt enter all details
+                        403: function () {
+                            alert("please enter all the details")
+                        },
+                        // error 
+                        404: function () {
+                            alert("an error occured please try again")
+                        }
+                    },
+                });
+
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <!-- header -->
+
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+    <div class="modifyproductpage__container">
+        <div class="modifyproduct__container">
+            <h4> Enter user shop details
+            </h4>
+            <form>
+                <div class="option">
+                    <label for="">Shop name:</label>
+                    <input type="text" id="name" placeholder="Enter shop name " required>
+                </div>
+                <div class="option">
+                    <label for="">Account email:</label>
+                    <input type="text" id="email" placeholder="Enter account email " required>
+                </div>
+                <div class="option">
+                    <label for="">Account password:</label>
+                    <input type="password" id="password" placeholder="Enter account password " required>
+                </div>
+                <button type="button" id="addBtn" class="addBtn">add</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

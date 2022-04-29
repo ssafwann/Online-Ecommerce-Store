@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>E-commerce page</title>
+    <style>
+        .shops__container {
+            margin: 0 auto 0 auto;
+            max-width: 98%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .heading {
+            padding-top: 35px;
+            letter-spacing: 0.1em;
+            text-align: center;
+            font-size: 18px;
+            margin-left: 25px;
+        }
+
+        .shop__container {
+            margin: 40px auto 40px auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* justify-content: space-around; */
+            max-width: 80%;
+            gap: 60px;
+            justify-content: center;
+        }
+
+        .shop {
+            background-color: #ffffff;
+            border: 1px solid #d3d3d3;
+            width: 300px;
+            min-height: 245px;
+            display: flex;
+            flex-direction: column;
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .shop>h4 {
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            width: 85%;
+            margin: 0 auto 0 auto;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .buttons a,
+        .buttons a:hover {
+            color: black;
+        }
+
+        .buttons button {
+            width: 100%;
+            height: 35px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .productsBtn {
+            background-color: black;
+            color: white;
+        }
+
+        .productsBtn:hover {
+            background-color: rgb(60, 59, 59);
+        }
+
+        .ordersBtn {
+            background-color: rgb(25, 25, 188);
+            color: white;
+        }
+
+        .ordersBtn:hover {
+            background-color: rgb(62, 62, 226);
+        }
+
+        .deleteBtn {
+            background-color: red;
+            color: white;
+        }
+
+        .deleteBtn:hover {
+            background-color: rgb(255, 64, 64);
+        }
+    </style>
+    <script>
+        function deleteShop(shopname) {
+            $.ajax({
+                url: `/shops/delete/${shopname}`,
+                type: "DELETE",
+                dataType: 'json',
+                statusCode: {
+                    // success
+                    200: function () {
+                        window.location.href = "/shops";
+                        alert("the shop with name: " + shopname + " was deleted succesfully!")
+                    },
+                    // error 
+                    404: function () {
+                        alert("an error occured please try again")
+                    },
+                }
+            })
+        };
+    </script>
+</head>
+
+<body>
+    <!-- header -->
+
+    <div>
+        <%- include('../components/header'); %>
+    </div>
+
+
+    <div class="shops__container">
+        <p class="heading">
+            <strong>
+                <%=shops.length%> shops
+            </strong>
+        </p>
+
+        <div class="shop__container">
+            <% shops.forEach((shop)=> { %>
+                <div class="shop">
+                    <h4>
+                        Shop name: <%= shop.name %>
+                    </h4>
+                    <div class="buttons">
+                        <a href="/shops/products/<%=shop.name%>">
+                            <button class="productsBtn">shop products</button>
+                        </a>
+                        <a href="/shops/orders/<%=shop.name%>">
+                            <button class="ordersBtn">shop orders</button>
+                        </a>
+                        <button class="deleteBtn" id="deleteBtn" onclick="deleteShop(`<%=shop.name%>`)">delete shop and
+                            products</button>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+    </div>
+
+    <!-- header -->
+    <div>
+        <%- include('../components/footer'); %>
+    </div>
+
+
+</body>
+
+</html>

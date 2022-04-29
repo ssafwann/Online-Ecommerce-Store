@@ -92,7 +92,7 @@
                             <% } else if (!user || user.role=="Customer" ) { %>
                                 <% if(product[i].instock) {%>
                                     <a href="/addtocart/<%=product[i]._id%>">
-                                        <button class="addtocartBtn">Add To Cart
+                                        <button class="addtocartBtn" type="button">Add To Cart
                                         </button>
                                     </a>
                                     <% } else { %>

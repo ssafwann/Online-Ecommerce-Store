@@ -45,6 +45,10 @@ const OrderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        shop: {
+          type: String,
+          required: true,
+        },
       },
     ],
   },

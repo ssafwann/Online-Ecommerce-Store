@@ -71,8 +71,9 @@ body {
 
 .cartproduct__info > p {
   margin-top: -15px;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
   font-size: 18px;
+  letter-spacing: 0.05em;
 }
 
 .cartproduct__info > p > small {

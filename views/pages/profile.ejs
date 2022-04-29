@@ -39,7 +39,9 @@
                                 <% order.products.forEach(product=> {%>
                                     <div class="order__products">
                                         <p>
-                                            <%= product.name %>
+                                            <%= product.name %><small style="letter-spacing: 0.05em;"><strong> shop: <%=
+                                                            product.shop%>
+                                                    </strong></small>
                                         </p>
                                         <p>
                                             $<strong>
@@ -62,7 +64,7 @@
                     <% }) %>
             </div>
             <% } else {%>
-                <h4>You have no orders</h4>
+                <h4 style="height: 400px;">You have made zero orders</h4>
                 <% }%>
 
     </div>

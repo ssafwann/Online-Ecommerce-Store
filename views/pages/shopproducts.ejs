@@ -13,44 +13,62 @@
     <!-- header -->
     <div>
         <%- include('../components/header'); %>
-            <p class="search-heading">
+    </div>
+
+
+    <% if (shopproducts.length> 0 ) { %>
+        <p class="search-heading">
+            <strong>
+                <%=shopproducts[0].shop%> products
+            </strong>
+        </p>
+        <% } else { %>
+            <p class="search-heading" style="height: 400px;">
                 <strong>
-                    <%=shopproducts[0].shop%> products
+                    Your shop has no products
                 </strong>
             </p>
-            <div class="all__products">
-                <% shopproducts.forEach((product)=> {%>
-                    <div class="product__container">
-                        <h4>
-                            <%= product.name %>
-                        </h4>
-                        <div class="image-div">
-                            <a href="/products/<%=product.category%>/<%=product._id%>"><img class="product-image"
-                                    src="<%= product.image %>" alt="product"></a>
-                        </div>
-                        <p>
-                            HKD $<%= product.price %>
-                        </p>
+            <% } %>
 
-                        <% if (user && product.shop==user.name) { %>
-                            <a href="/modifyproduct/<%=product._id%>">
-                                <button class="modifyBtn">Modify product
-                                </button>
-                            </a>
-                            <% } else if (!user || user.role=="Customer" ) { %>
-                                <% if(product.instock) {%>
-                                    <a href="/addtocart/<%=product._id%>">
-                                        <button class="addtocartBtn">Add To Cart
-                                        </button>
-                                    </a>
-                                    <% } else { %>
-                                        <button class="outofstockBtn">Out of Stock
-                                        </button>
-                                        <%} %>
-                                            <% } %>
-                    </div>
-                    <% }) %>
-            </div>
+                <div class="all__products">
+                    <% shopproducts.forEach((product)=> {%>
+                        <div class="product__container">
+                            <h4>
+                                <%= product.name %>
+                            </h4>
+                            <div class="image-div">
+                                <a href="/products/<%=product.category%>/<%=product._id%>"><img class="product-image"
+                                        src="<%= product.image %>" alt="product"></a>
+                            </div>
+                            <p>
+                                HKD $<%= product.price %>
+                            </p>
+
+                            <% if (user && product.shop==user.name) { %>
+                                <a href="/products/modify/<%=product._id%>">
+                                    <button class="modifyBtn">Modify product
+                                    </button>
+                                </a>
+                                <% } else if (!user || user.role=="Customer" ) { %>
+                                    <% if(product.instock) {%>
+                                        <a href="/addtocart/<%=product._id%>">
+                                            <button class="addtocartBtn">Add To Cart
+                                            </button>
+                                        </a>
+                                        <% } else { %>
+                                            <button class="outofstockBtn">Out of Stock
+                                            </button>
+                                            <%} %>
+                                                <% } %>
+                        </div>
+                        <% }) %>
+                </div>
+
+
+                <!-- ! footer -->
+                <div>
+                    <%- include('../components/footer'); %>
+                </div>
 </body>
 
 </html>
