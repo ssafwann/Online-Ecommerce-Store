@@ -236,7 +236,8 @@ const deleteProduct = async (req, res) => {
         console.log(err);
         return res.status(404).send();
       } else {
-        return res.status(200).send();
+        const user = req.session.user;
+        return res.status(200).send(user);
       }
     });
   } catch (error) {

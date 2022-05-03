@@ -13,8 +13,8 @@
                 dataType: 'json',
                 statusCode: {
                     // success
-                    200: function () {
-                        window.location.href = "/";
+                    200: function (data) {
+                        window.location.href = `/shops/products/${data.name}`;
                         alert("the product with ID: " + productID + " was deleted succesfully!")
                     },
                     // error 

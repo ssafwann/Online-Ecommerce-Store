@@ -66,11 +66,15 @@
                         <% } else {%>
                             <!-- category is not search-->
                             <div class="category__banner">
-                                <img class="banner__image" src="/images/category/banner__<%=category%>.png"
-                                    alt="banner">
-                                <p>
-                                    <%= category %>
-                                </p>
+                                <% if (category==="All" ) { %>
+                                    <img class="banner__image" src="/images/category/banner__all.png" alt="banner">
+                                    <% } else {%>
+                                        <img class="banner__image" src="/images/category/banner__<%=category%>.png"
+                                            alt="banner">
+                                        <% } %>
+                                            <p>
+                                                <%= category %>
+                                            </p>
                             </div>
 
                             <div class="all__products">
