@@ -13,7 +13,6 @@ router.route("/login").get(getLoginPage).post(userLogin);
 
 router.route("/profile").get(getUserProfile);
 
-// admin route
 router.route("/orders").get(getUsersOrders);
 
 router.route("/logout").get(logOut);

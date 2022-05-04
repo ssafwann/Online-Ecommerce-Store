@@ -30,14 +30,18 @@ const userLogin = async (req, res) => {
     for (var i = 0; i < user.length; i++) {
       if (user[i].password === password && user[i].email === email) {
         console.log("found", user[i].role);
+
         req.session.user = user[i];
 
         // check if user has  cart in database
-        var usercart = await Cart.findOne({ user: user[i]._id });
-        if (usercart) {
-          req.session.cart = usercart;
-        } else {
-          req.session.cart = null;
+        if (user[i].role == "Customer") {
+          var usercart = await Cart.findOne({ user: user[i]._id });
+
+          if (usercart) {
+            req.session.cart = usercart;
+          } else {
+            req.session.cart = null;
+          }
         }
 
         return res.status(200).send();
@@ -67,7 +71,6 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// ! Admin function
 const getUsersOrders = async (req, res) => {
   try {
     // make sure only admin can access the url

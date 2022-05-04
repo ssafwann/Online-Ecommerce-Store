@@ -75,14 +75,21 @@
                         <% } else {%>
 
                             <% if (user.role==="Seller" ) { %>
-                                <h4 style="height: 400px;">Your shop has no orders</h4>
+                                <strong>
+                                    <p class="order-heading">
+                                        Your shop has no
+                                        orders</p>
+                                </strong>
                                 <% } else { %>
-                                    <h4 style="height: 400px;">No orders have been made</h4>
+                                    <strong>
+                                        <p class="order-heading">
+                                            No orders have
+                                            been made</p>
+                                    </strong>
                                     <% } %>
                                         <% }%>
 
     </div>
-
     <!-- ! footer -->
     <div>
         <%- include('../components/footer'); %>

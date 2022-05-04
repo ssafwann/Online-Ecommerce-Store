@@ -98,11 +98,6 @@ form > input::placeholder {
   font-size: 13px;
 }
 
-/* for tablets */
-@media only screen and (min-device-width: 768px) {
-}
-
-/* for phones */
 @media only screen and (max-width: 480px) {
   .signin > h1 {
     font-size: 22px;

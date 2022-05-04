@@ -51,7 +51,12 @@ const getShopPage = async (req, res) => {
 
 const getShopOrders = async (req, res) => {
   try {
-    if (!req.session.user || req.session.user.role == "User") {
+    if (
+      !req.session.user ||
+      req.session.user.role == "Customer" ||
+      (req.session.user.role == "Seller" &&
+        req.params.name != req.session.user.name)
+    ) {
       return res.redirect("/");
     }
 

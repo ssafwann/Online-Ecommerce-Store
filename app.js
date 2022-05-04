@@ -3,8 +3,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
 
+// environment variables
 require("dotenv").config();
 
 // Middleware
@@ -17,23 +17,8 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({
-    //   mongoUrl: process.env.MONGODB_URI,
-    // }),
   })
 );
-
-// variables that all routes should have
-// app.use(async (req, res, next) => {
-//   try {
-//     res.locals.currentuser = req.user;
-//     res.locals.cart = req.cart;
-//     res.locals.session = req.session;
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 // routes config
 const indexRouter = require("./routes/index");
