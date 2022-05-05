@@ -22,7 +22,8 @@ const userLogin = async (req, res) => {
     const user = await User.find({ email: email });
 
     // no user found with email
-    if (!user) {
+    if (user == false) {
+      console.log("function runs");
       return res.status(403).send();
     }
 
@@ -33,7 +34,7 @@ const userLogin = async (req, res) => {
 
         req.session.user = user[i];
 
-        // check if user has  cart in database
+        // check if user has cart in database
         if (user[i].role == "Customer") {
           var usercart = await Cart.findOne({ user: user[i]._id });
 
