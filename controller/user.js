@@ -23,7 +23,6 @@ const userLogin = async (req, res) => {
 
     // no user found with email
     if (user == false) {
-      console.log("function runs");
       return res.status(403).send();
     }
 
