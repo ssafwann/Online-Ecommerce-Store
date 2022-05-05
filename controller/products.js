@@ -44,7 +44,8 @@ const getSingleProduct = async (req, res) => {
         });
       }
     }
-    // ! check if user has already ordered this product
+
+    // check if user has already ordered this product
     if (req.session.user) {
       const userorders = await Order.find({ user: req.session.user._id });
 
@@ -107,7 +108,6 @@ const getSearchPage = async (req, res) => {
   }
 };
 
-// ! Seller function
 const getModifyPage = async (req, res) => {
   try {
     // make sure only admin can access the url
@@ -126,7 +126,6 @@ const getModifyPage = async (req, res) => {
   }
 };
 
-// ! Seller function
 const postModify = async (req, res) => {
   try {
     const newprice = req.body.newprice;
@@ -159,7 +158,6 @@ const postModify = async (req, res) => {
   }
 };
 
-// ! Seller function
 const getAddPage = async (req, res) => {
   try {
     // make sure only admin can access the url
@@ -176,7 +174,6 @@ const getAddPage = async (req, res) => {
   }
 };
 
-// ! Seller function
 const postAddProduct = async (req, res) => {
   try {
     const name = req.body.name;

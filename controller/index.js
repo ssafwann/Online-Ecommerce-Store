@@ -80,8 +80,18 @@ const getCartPage = async (req, res) => {
     if (usercart) {
       req.session.cart = usercart;
 
+      // get the info of each product in cart and create an array with it
+      var products = [];
+      var cart = usercart;
+      for (var i = 0; i < cart.products.length; i++) {
+        var cartproduct = await Product.findById(
+          cart.products[i].productID
+        ).lean();
+        products.push(cartproduct);
+      }
+
       return res.render("pages/cart.ejs", {
-        products: await productsInCart(usercart),
+        products: products,
         user: req.session.user,
         cart: usercart,
       });
@@ -96,10 +106,20 @@ const getCartPage = async (req, res) => {
       });
     }
 
+    // get the info of each product in cart and create an array with it
+    var products = [];
+    var cart = req.session.cart;
+    for (var i = 0; i < cart.products.length; i++) {
+      var cartproduct = await Product.findById(
+        cart.products[i].productID
+      ).lean();
+      products.push(cartproduct);
+    }
+
     // user logged out but has cart in session
     return res.render("pages/cart.ejs", {
       cart: req.session.cart,
-      products: await productsInCart(req.session.cart),
+      products: products,
       user: req.session.user,
     });
   } catch (error) {
@@ -163,10 +183,20 @@ const getCheckoutPage = async (req, res) => {
       res.redirect("/user/login");
     }
 
+    // get the info of each product in cart and create an array with it
+    var products = [];
+    var cart = req.session.cart;
+    for (var i = 0; i < cart.products.length; i++) {
+      var cartproduct = await Product.findById(
+        cart.products[i].productID
+      ).lean();
+      products.push(cartproduct);
+    }
+
     res.render("pages/checkout.ejs", {
       user: req.session.user,
       cart: req.session.cart,
-      products: await productsInCart(req.session.cart),
+      products: products,
     });
   } catch (error) {
     console.log(error);
@@ -211,18 +241,6 @@ const postCheckoutPage = async (req, res) => {
     console.log(error);
     return res.status(404).send();
   }
-};
-
-// create products array to store the info of each product in the cart
-const productsInCart = async (cart) => {
-  var products = [];
-
-  for (var i = 0; i < cart.products.length; i++) {
-    var cartproduct = await Product.findById(cart.products[i].productID).lean();
-    products.push(cartproduct);
-  }
-
-  return products;
 };
 
 module.exports = {
