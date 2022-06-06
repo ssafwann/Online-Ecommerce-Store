@@ -1,1 +1,2 @@
-.env
+.env.MONGODB_URI 
+.env.SESSION_SECRET
